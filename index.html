@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Btech Tikdownloader - Professional TikTok Video Downloader</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <title>Admin Panel - Btech Tikdownloader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #fe2c55;
-            --primary-dark: #e62548;
             --secondary: #25f4ee;
             --dark: #121212;
             --darker: #0a0a0a;
             --light: #ffffff;
             --success: #00d084;
             --warning: #ffa502;
-            --glass: rgba(255, 255, 255, 0.05);
+            --danger: #ff4757;
         }
 
         * {
@@ -30,1000 +29,769 @@
             background: var(--darker);
             color: var(--light);
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* Animated Background */
-        .bg-animation {
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.03);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: linear-gradient(135deg, var(--darker) 0%, #1a1a2e 50%, var(--darker) 100%);
-            overflow: hidden;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(254, 44, 85, 0.1) 0%, transparent 70%);
-            animation: pulse 15s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header */
-        header {
-            text-align: center;
-            padding: 40px 0 30px;
-            animation: fadeInDown 0.8s ease-out;
+            height: 100vh;
+            overflow-y: auto;
         }
 
         .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 16px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            box-shadow: 0 10px 30px rgba(254, 44, 85, 0.3);
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--light) 0%, var(--secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        .subtitle {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 1.1rem;
-            font-weight: 300;
-        }
-
-        /* Main Card */
-        .main-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: fadeInUp 0.8s ease-out 0.2s both;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Input Section */
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .input-wrapper {
-            display: flex;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .input-wrapper:focus-within {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(254, 44, 85, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .url-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 18px 20px;
-            color: var(--light);
-            font-size: 16px;
-            outline: none;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .url-input::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .paste-btn {
-            background: transparent;
-            border: none;
-            color: var(--secondary);
-            padding: 0 20px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s;
-            border-left: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .paste-btn:hover {
-            background: rgba(37, 244, 238, 0.1);
-            color: var(--light);
-        }
-
-        .download-btn {
-            width: 100%;
-            padding: 18px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 18px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             gap: 10px;
-            box-shadow: 0 10px 30px rgba(254, 44, 85, 0.3);
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .download-btn:hover:not(:disabled) {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(254, 44, 85, 0.4);
-        }
-
-        .download-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .spinner {
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            display: none;
-        }
-
-        .download-btn.loading .spinner {
-            display: inline-block;
-        }
-
-        .download-btn.loading .btn-text {
-            display: none;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Video Preview Section */
-        .preview-section {
-            display: none;
-            margin-top: 30px;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .preview-section.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .video-container {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 16px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            position: relative;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .video-wrapper {
-            position: relative;
-            padding-bottom: 177.77%;
-            background: #000;
-        }
-
-        .video-wrapper video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .video-info {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .video-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--light);
-            line-height: 1.4;
-        }
-
-        .video-author {
-            color: var(--secondary);
-            font-size: 14px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .video-stats {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .stat i {
+        .logo i {
+            font-size: 28px;
             color: var(--primary);
         }
 
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+        .logo span {
+            font-size: 20px;
+            font-weight: 700;
         }
 
-        .action-btn {
-            padding: 14px;
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 10px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
             border-radius: 12px;
-            border: none;
-            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(254, 44, 85, 0.1);
+            color: var(--primary);
+        }
+
+        .nav-link i {
+            width: 20px;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            padding: 8px 16px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 15px;
-            text-decoration: none;
-            color: white;
         }
 
-        .btn-download-hd {
-            background: linear-gradient(135deg, var(--success) 0%, #00b86b 100%);
-            box-shadow: 0 4px 15px rgba(0, 208, 132, 0.3);
+        .logout-btn:hover {
+            background: rgba(255, 71, 87, 0.2);
         }
 
-        .btn-download-hd:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 208, 132, 0.4);
-        }
-
-        .btn-download-sd {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-download-sd:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        /* Messages */
-        .error-message {
-            display: none;
-            background: rgba(254, 44, 85, 0.1);
-            border: 1px solid rgba(254, 44, 85, 0.3);
-            color: #ff6b6b;
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            align-items: center;
-            gap: 10px;
-            animation: shake 0.5s;
-        }
-
-        .error-message.active {
-            display: flex;
-        }
-
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-10px); }
-            75% { transform: translateX(10px); }
-        }
-
-        .success-message {
-            display: none;
-            background: rgba(0, 208, 132, 0.1);
-            border: 1px solid rgba(0, 208, 132, 0.3);
-            color: var(--success);
-            padding: 15px;
-            border-radius: 12px;
-            margin-top: 15px;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .success-message.active {
-            display: flex;
-        }
-
-        /* Features Grid */
-        .features {
+        /* Stats Cards */
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 20px;
-            margin-top: 30px;
-            animation: fadeInUp 0.8s ease-out 0.4s both;
+            margin-bottom: 30px;
         }
 
-        .feature-card {
-            background: var(--glass);
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 25px;
-            text-align: center;
-            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(254, 44, 85, 0.3);
-            background: rgba(255, 255, 255, 0.08);
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
         }
 
-        .feature-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-radius: 12px;
+        .stat-card.success::before {
+            background: var(--success);
+        }
+
+        .stat-card.warning::before {
+            background: var(--warning);
+        }
+
+        .stat-card.info::before {
+            background: var(--secondary);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(254, 44, 85, 0.1);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 24px;
+            color: var(--primary);
         }
 
-        .feature-title {
-            font-size: 16px;
+        .stat-card.success .stat-icon {
+            background: rgba(0, 208, 132, 0.1);
+            color: var(--success);
+        }
+
+        .stat-card.warning .stat-icon {
+            background: rgba(255, 165, 2, 0.1);
+            color: var(--warning);
+        }
+
+        .stat-card.info .stat-icon {
+            background: rgba(37, 244, 238, 0.1);
+            color: var(--secondary);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-change {
+            font-size: 13px;
+            color: var(--success);
+        }
+
+        .stat-change.negative {
+            color: var(--danger);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Table Styles */
+        .table-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .table-title {
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 8px;
         }
 
-        .feature-desc {
+        .table-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-            line-height: 1.5;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* How to Use Section */
-        .how-to-use {
-            background: var(--glass);
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(0, 208, 132, 0.1);
+            color: var(--success);
+        }
+
+        .status-pending {
+            background: rgba(255, 165, 2, 0.1);
+            color: var(--warning);
+        }
+
+        .status-failed {
+            background: rgba(255, 71, 87, 0.1);
+            color: var(--danger);
+        }
+
+        /* Charts Placeholder */
+        .chart-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .chart-placeholder {
+            font-size: 60px;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Settings Form */
+        .settings-form {
+            background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 16px;
             padding: 30px;
-            margin-top: 30px;
-            animation: fadeInUp 0.8s ease-out 0.6s both;
+            max-width: 600px;
         }
 
-        .section-title {
-            font-size: 20px;
-            font-weight: 700;
+        .form-group {
             margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
         }
 
-        .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .step {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            border-left: 3px solid var(--primary);
-        }
-
-        .step-number {
-            width: 30px;
-            height: 30px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
             font-size: 14px;
-            flex-shrink: 0;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .step-content {
-            flex: 1;
-        }
-
-        .step-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .step-desc {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Developer Contact */
-        .dev-contact {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 100;
-        }
-
-        .whatsapp-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #25d366;
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             color: white;
-            padding: 15px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
-            transition: all 0.3s;
-            animation: slideInRight 0.8s ease-out 1s both;
-        }
-
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(100px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .whatsapp-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
-        }
-
-        /* Hidden Admin Access */
-        .admin-trigger {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            width: 20px;
-            height: 20px;
-            opacity: 0;
-            cursor: pointer;
-            z-index: 9999;
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 0;
-            color: rgba(255, 255, 255, 0.4);
             font-size: 14px;
-            animation: fadeIn 1s ease-out 0.8s both;
         }
 
-        .footer-brand {
-            font-weight: 700;
-            color: var(--light);
-            margin-bottom: 10px;
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 6px;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            h1 { font-size: 1.8rem; }
-            .main-card { padding: 25px; }
-            .action-buttons { grid-template-columns: 1fr; }
-            .dev-contact { bottom: 20px; right: 20px; left: 20px; }
-            .whatsapp-btn { width: 100%; justify-content: center; }
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .admin-container {
+                flex-direction: column;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        /* Loading Skeleton */
-        .skeleton {
-            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 8px;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* Music Info */
-        .music-info {
+        /* Login Modal */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 10px;
-            background: rgba(37, 244, 238, 0.05);
-            border-radius: 8px;
-            margin-top: 15px;
-            font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+            justify-content: center;
+            z-index: 9999;
         }
 
-        .music-info i {
-            color: var(--secondary);
+        .login-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
-    <!-- Hidden Admin Access (click 5 times on bottom-left corner) -->
-    <div class="admin-trigger" onclick="checkAdminAccess()" title="Admin"></div>
-    
-    <div class="bg-animation"></div>
-    
-    <div class="container">
-        <header>
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fab fa-tiktok"></i>
-                </div>
-                <div>
-                    <h1>Btech Tikdownloader</h1>
-                </div>
-            </div>
-            <p class="subtitle">Download TikTok Videos Without Watermark in HD Quality</p>
-        </header>
+    <!-- Login Modal -->
+    <div class="login-overlay" id="loginModal">
+        <div class="login-box">
+            <h2><i class="fas fa-lock" style="color: var(--primary); margin-right: 10px;"></i>Admin Login</h2>
+            <input type="password" class="login-input" id="adminPassword" placeholder="Enter admin password">
+            <button class="login-btn" onclick="login()">Login</button>
+            <p style="margin-top: 20px; font-size: 14px; color: rgba(255,255,255,0.5);">
+                <a href="/" style="color: var(--secondary); text-decoration: none;">← Back to Site</a>
+            </p>
+        </div>
+    </div>
 
-        <div class="main-card">
-            <div class="input-group">
-                <div class="input-wrapper">
-                    <input type="text" class="url-input" id="videoUrl" placeholder="Paste TikTok video link here...">
-                    <button class="paste-btn" onclick="pasteLink()">
-                        <i class="fas fa-paste"></i> PASTE
+    <div class="admin-container hidden" id="adminPanel">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>Admin</span>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link active" onclick="showSection('dashboard')">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('downloads')">
+                        <i class="fas fa-download"></i>
+                        <span>Downloads</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('analytics')">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Analytics</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('users')">
+                        <i class="fas fa-users"></i>
+                        <span>Users</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 id="pageTitle">Dashboard</h1>
+                <div class="user-info">
+                    <span>Welcome, Admin</span>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
             </div>
-            
-            <button class="download-btn" id="downloadBtn" onclick="processVideo()">
-                <div class="spinner"></div>
-                <span class="btn-text">
-                    <i class="fas fa-download"></i> Download Video
-                </span>
-            </button>
 
-            <div class="error-message" id="errorMsg">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorText">Invalid TikTok URL. Please check and try again.</span>
-            </div>
-
-            <div class="success-message" id="successMsg">
-                <i class="fas fa-check-circle"></i>
-                <span>Video ready for download!</span>
-            </div>
-
-            <div class="preview-section" id="previewSection">
-                <div class="video-container">
-                    <div class="video-wrapper">
-                        <video id="previewVideo" controls preload="metadata">
-                            Your browser does not support the video tag.
-                        </video>
+            <!-- Dashboard Section -->
+            <div class="content-section active" id="dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Total Downloads</span>
+                            <div class="stat-icon"><i class="fas fa-download"></i></div>
+                        </div>
+                        <div class="stat-value" id="totalDownloads">0</div>
+                        <div class="stat-change">+12% from last week</div>
                     </div>
-                    <div class="video-info">
-                        <div class="video-title" id="videoTitle">Video Title</div>
-                        <div class="video-author" id="videoAuthor">
-                            <i class="fas fa-user-circle"></i>
-                            <span>@username</span>
+                    
+                    <div class="stat-card success">
+                        <div class="stat-header">
+                            <span class="stat-title">Successful</span>
+                            <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
                         </div>
-                        <div class="video-stats">
-                            <div class="stat">
-                                <i class="fas fa-play"></i>
-                                <span id="viewCount">0 views</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-heart"></i>
-                                <span id="likeCount">0 likes</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-share"></i>
-                                <span id="shareCount">0 shares</span>
-                            </div>
-                            <div class="stat">
-                                <i class="fas fa-clock"></i>
-                                <span id="duration">0s</span>
-                            </div>
+                        <div class="stat-value" id="successfulDownloads">0</div>
+                        <div class="stat-change">98% success rate</div>
+                    </div>
+                    
+                    <div class="stat-card warning">
+                        <div class="stat-header">
+                            <span class="stat-title">Failed</span>
+                            <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
                         </div>
-                        <div class="music-info" id="musicInfo" style="display: none;">
-                            <i class="fas fa-music"></i>
-                            <span id="musicTitle">Original Sound</span>
+                        <div class="stat-value" id="failedDownloads">0</div>
+                        <div class="stat-change negative">2% failure rate</div>
+                    </div>
+                    
+                    <div class="stat-card info">
+                        <div class="stat-header">
+                            <span class="stat-title">Active Users</span>
+                            <div class="stat-icon"><i class="fas fa-users"></i></div>
                         </div>
-                        <div class="action-buttons">
-                            <button class="action-btn btn-download-hd" onclick="downloadVideo('hd')">
-                                <i class="fas fa-download"></i> Download HD
+                        <div class="stat-value" id="activeUsers">0</div>
+                        <div class="stat-change">+5% from yesterday</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <i class="fas fa-chart-area chart-placeholder"></i>
+                    <p>Download Statistics Chart (Last 7 Days)</p>
+                    <p style="font-size: 14px; margin-top: 10px;">Connect to database to view real-time analytics</p>
+                </div>
+            </div>
+
+            <!-- Downloads Section -->
+            <div class="content-section" id="downloads">
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">Recent Downloads</span>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary" onclick="refreshData()">
+                                <i class="fas fa-sync"></i> Refresh
                             </button>
-                            <button class="action-btn btn-download-sd" onclick="downloadVideo('sd')">
-                                <i class="fas fa-download"></i> Download SD
+                            <button class="btn btn-primary" onclick="exportData()">
+                                <i class="fas fa-download"></i> Export
                             </button>
                         </div>
                     </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Video URL</th>
+                                <th>Author</th>
+                                <th>Quality</th>
+                                <th>Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="downloadsTable">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                                    No data available. Connect database to view downloads.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-ban"></i>
+            <!-- Analytics Section -->
+            <div class="content-section" id="analytics">
+                <div class="chart-container">
+                    <i class="fas fa-chart-pie chart-placeholder"></i>
+                    <p>Traffic Sources Analytics</p>
+                    <p style="font-size: 14px; margin-top: 10px;">Google Analytics integration required</p>
                 </div>
-                <div class="feature-title">No Watermark</div>
-                <div class="feature-desc">Download videos completely clean without TikTok logo or username overlay</div>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-hd"></i>
-                </div>
-                <div class="feature-title">HD Quality</div>
-                <div class="feature-desc">Get the highest available resolution up to 4K depending on source video</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-bolt"></i>
-                </div>
-                <div class="feature-title">Fast & Free</div>
-                <div class="feature-desc">Unlimited downloads with high-speed servers, no registration required</div>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <div class="feature-title">All Devices</div>
-                <div class="feature-desc">Works perfectly on Android, iOS, Windows, Mac, and Linux</div>
-            </div>
-        </div>
 
-        <div class="how-to-use">
-            <div class="section-title">
-                <i class="fas fa-info-circle" style="color: var(--secondary);"></i>
-                How to Download TikTok Videos
-            </div>
-            <div class="steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-content">
-                        <div class="step-title">Copy Video Link</div>
-                        <div class="step-desc">Open TikTok app, tap Share button, then tap Copy Link</div>
+            <!-- Users Section -->
+            <div class="content-section" id="users">
+                <div class="table-container">
+                    <div class="table-header">
+                        <span class="table-title">Active Users</span>
+                        <div class="table-actions">
+                            <button class="btn btn-secondary">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                        </div>
                     </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-content">
-                        <div class="step-title">Paste URL</div>
-                        <div class="step-desc">Paste the copied link into the input box above</div>
-                    </div>
-                </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-content">
-                        <div class="step-title">Download</div>
-                        <div class="step-desc">Click Download and choose HD or SD quality</div>
-                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>IP Address</th>
+                                <th>Location</th>
+                                <th>Downloads</th>
+                                <th>Last Active</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5);">
+                                    User tracking disabled. Enable in settings.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
 
-        <footer>
-            <div class="footer-brand">Btech Tikdownloader</div>
-            <p>© 2024 Btech Tikdownloader. All rights reserved.</p>
-            <p style="margin-top: 5px; font-size: 12px;">Not affiliated with TikTok. For educational purposes only.</p>
-        </footer>
-    </div>
-
-    <div class="dev-contact">
-        <a href="https://wa.me/+19566472913" target="_blank" class="whatsapp-btn">
-            <i class="fab fa-whatsapp"></i>
-            <span>Contact Developer</span>
-        </a>
+            <!-- Settings Section -->
+            <div class="content-section" id="settings">
+                <div class="settings-form">
+                    <h3 style="margin-bottom: 25px;">General Settings</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Site Title</label>
+                        <input type="text" class="form-input" value="Btech Tikdownloader">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">API Key (TikWM)</label>
+                        <input type="password" class="form-input" value="••••••••••••">
+                        <p class="form-hint">Your TikWM API key for fetching videos</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Max Downloads Per Day</label>
+                        <input type="number" class="form-input" value="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Enable Analytics</label>
+                        <select class="form-input">
+                            <option>Enabled</option>
+                            <option>Disabled</option>
+                        </select>
+                    </div>
+                    
+                    <button class="btn btn-primary" style="width: 100%; padding: 12px;">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+        </main>
     </div>
 
     <script>
-        // API Configuration
-        const API_URL = '/api/download'; // Vercel serverless function
-        
-        let currentVideoData = null;
-        let downloadLinks = { hd: null, sd: null };
-        let adminClickCount = 0;
-
-        // Admin access checker
-        function checkAdminAccess() {
-            adminClickCount++;
-            if (adminClickCount >= 5) {
-                const password = prompt('Enter admin password:');
-                if (password === 'btech2024') {
-                    window.location.href = '/admin/';
-                } else {
-                    alert('Invalid password');
-                    adminClickCount = 0;
-                }
-            }
-            setTimeout(() => adminClickCount = 0, 3000);
+        // Check if already logged in
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            showAdminPanel();
         }
 
-        // Paste functionality
-        async function pasteLink() {
-            try {
-                const text = await navigator.clipboard.readText();
-                if (text) {
-                    document.getElementById('videoUrl').value = text;
-                    document.getElementById('videoUrl').focus();
-                }
-            } catch (err) {
-                showError('Please allow clipboard access or paste manually');
-            }
-        }
-
-        // Validate TikTok URL
-        function isValidTikTokUrl(url) {
-            const patterns = [
-                /https?:\/\/(www\.)?tiktok\.com\/@[\w.]+\/video\/\d+/,
-                /https?:\/\/(www\.)?tiktok\.com\/t\/\w+/,
-                /https?:\/\/vm\.tiktok\.com\/\w+/,
-                /https?:\/\/vt\.tiktok\.com\/\w+/,
-                /https?:\/\/(www\.)?douyin\.com\/video\/\d+/,
-                /https?:\/\/m\.tiktok\.com\/v\/\d+/
-            ];
-            return patterns.some(pattern => pattern.test(url));
-        }
-
-        // Show/Hide messages
-        function showError(message) {
-            const errorDiv = document.getElementById('errorMsg');
-            document.getElementById('errorText').textContent = message;
-            errorDiv.classList.add('active');
-            setTimeout(() => errorDiv.classList.remove('active'), 5000);
-        }
-
-        function showSuccess() {
-            document.getElementById('successMsg').classList.add('active');
-            setTimeout(() => document.getElementById('successMsg').classList.remove('active'), 3000);
-        }
-
-        function hideMessages() {
-            document.getElementById('errorMsg').classList.remove('active');
-            document.getElementById('successMsg').classList.remove('active');
-        }
-
-        // Format numbers
-        function formatNumber(num) {
-            if (!num) return '0';
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
-        }
-
-        // Main processing function
-        async function processVideo() {
-            const url = document.getElementById('videoUrl').value.trim();
-            const btn = document.getElementById('downloadBtn');
-            
-            hideMessages();
-            
-            if (!url) {
-                showError('Please enter a TikTok video URL');
-                return;
-            }
-            
-            if (!isValidTikTokUrl(url)) {
-                showError('Invalid TikTok URL. Please check the link format');
-                return;
-            }
-
-            btn.classList.add('loading');
-            btn.disabled = true;
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ url })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Server error: ' + response.status);
-                }
-
-                const data = await response.json();
-
-                if (data.error) {
-                    throw new Error(data.error);
-                }
-
-                if (data.success && data.data) {
-                    displayVideo(data.data);
-                    showSuccess();
-                } else {
-                    throw new Error('Invalid response from server');
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
-                showError('Failed to download: ' + error.message);
-            } finally {
-                btn.classList.remove('loading');
-                btn.disabled = false;
-            }
-        }
-
-        // Display video data
-        function displayVideo(data) {
-            currentVideoData = data;
-            downloadLinks = data.urls || {};
-            
-            // Update UI
-            document.getElementById('videoTitle').textContent = data.title || 'TikTok Video';
-            document.getElementById('videoAuthor').innerHTML = `
-                <i class="fas fa-user-circle"></i>
-                <span>${data.author || '@user'}</span>
-            `;
-            document.getElementById('viewCount').textContent = formatNumber(data.playCount) + ' views';
-            document.getElementById('likeCount').textContent = formatNumber(data.diggCount) + ' likes';
-            document.getElementById('shareCount').textContent = formatNumber(data.shareCount) + ' shares';
-            document.getElementById('duration').textContent = (data.duration || 0) + 's';
-            
-            // Music info
-            if (data.music && data.music.title) {
-                document.getElementById('musicTitle').textContent = data.music.title;
-                document.getElementById('musicInfo').style.display = 'flex';
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === 'btech2024') {
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                showAdminPanel();
             } else {
-                document.getElementById('musicInfo').style.display = 'none';
+                alert('Invalid password!');
             }
-            
-            // Set video preview
-            const video = document.getElementById('previewVideo');
-            if (downloadLinks.hd || downloadLinks.sd) {
-                video.src = downloadLinks.hd || downloadLinks.sd;
-                video.poster = data.cover || '';
-            }
-            
-            // Show preview section
-            document.getElementById('previewSection').classList.add('active');
-            
-            // Scroll to preview
-            setTimeout(() => {
-                document.getElementById('previewSection').scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'nearest' 
-                });
-            }, 100);
         }
 
-        // Download video
-        async function downloadVideo(quality) {
-            const url = downloadLinks[quality];
-            if (!url) {
-                showError('Download link not available');
-                return;
-            }
-            
-            try {
-                // Fetch the video through our proxy to avoid CORS
-                const response = await fetch('/api/download?proxy=' + encodeURIComponent(url));
-                
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const blobUrl = window.URL.createObjectURL(blob);
-                    
-                    const a = document.createElement('a');
-                    a.href = blobUrl;
-                    a.download = `tiktok_${quality}_${Date.now()}.mp4`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(blobUrl);
-                } else {
-                    // Fallback: open in new tab
-                    window.open(url, '_blank');
-                }
-            } catch (error) {
-                // Fallback: open in new tab
-                window.open(url, '_blank');
-            }
-            
-            // Show feedback
-            const btn = event.target.closest('.action-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
-            btn.style.background = 'var(--success)';
-            
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-                btn.style.background = '';
-            }, 2000);
+        function showAdminPanel() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+            loadDashboardData();
         }
 
-        // Enter key support
-        document.getElementById('videoUrl').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                processVideo();
-            }
-        });
+        function logout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            location.reload();
+        }
 
-        // Auto-paste on focus
-        document.getElementById('videoUrl').addEventListener('focus', async function() {
-            if (!this.value) {
-                try {
-                    const text = await navigator.clipboard.readText();
-                    if (isValidTikTokUrl(text)) {
-                        this.value = text;
-                    }
-                } catch (e) {
-                    // Silent fail
-                }
-            }
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(section).classList.add('active');
+            event.target.closest('.nav-link').classList.add('active');
+            
+            // Update title
+            const titles = {
+                dashboard: 'Dashboard',
+                downloads: 'Download History',
+                analytics: 'Analytics',
+                users: 'User Management',
+                settings: 'Settings'
+            };
+            document.getElementById('pageTitle').textContent = titles[section];
+        }
+
+        // Load mock data
+        function loadDashboardData() {
+            // Simulate API call
+            setTimeout(() => {
+                document.getElementById('totalDownloads').textContent = '1,234';
+                document.getElementById('successfulDownloads').textContent = '1,209';
+                document.getElementById('failedDownloads').textContent = '25';
+                document.getElementById('activeUsers').textContent = '156';
+            }, 500);
+        }
+
+        function refreshData() {
+            const btn = event.target;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-sync"></i> Refresh';
+                alert('Data refreshed!');
+            }, 1000);
+        }
+
+        function exportData() {
+            alert('Export feature: Connect to database to enable CSV export');
+        }
+
+        // Enter key on password field
+        document.getElementById('adminPassword').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
         });
     </script>
 </body>
 </html>
+

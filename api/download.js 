@@ -1,5 +1,5 @@
 // api/download.js - Vercel Serverless Function
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -20,12 +20,10 @@ module.exports = async (req, res) => {
   }
 
   try {
-    // Use TikWM API
     const apiResponse = await fetch('https://www.tikwm.com/api/', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/x-www-form-urlencoded',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       },
       body: new URLSearchParams({ 
         url: url, 
@@ -68,4 +66,4 @@ module.exports = async (req, res) => {
       details: error.message 
     });
   }
-};
+}
